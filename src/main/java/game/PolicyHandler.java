@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PolicyHandler{
+    @Autowired
+    KakaoTalkRepository kakaoTalkRepository;
     @StreamListener(KafkaProcessor.INPUT)
     public void onStringEventListener(@Payload String eventString){
 
@@ -23,6 +25,8 @@ public class PolicyHandler{
             KakaoTalk kakaoTalk = new KakaoTalk();
             kakaoTalk.setMissionId(missionUpdated.getId());
             kakaoTalk.setStatus(missionUpdated.getStatus());
+
+            kakaoTalkRepository.save(kakaoTalk);
 
             System.out.println("##### listener Alert : " + missionUpdated.toJson());
         }
