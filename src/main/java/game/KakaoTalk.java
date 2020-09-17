@@ -14,6 +14,15 @@ public class KakaoTalk {
     private Long missionId;
     private String status;
 
+    @PostPersist
+    public void onPostPersist(){
+        MessageUpdated messageUpdated = new MessageUpdated();
+        BeanUtils.copyProperties(this, messageUpdated);
+        messageUpdated.publishAfterCommit();
+
+
+    }
+
 
     public Long getId() {
         return id;
